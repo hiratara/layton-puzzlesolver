@@ -18,4 +18,7 @@ auto_include;
 
 # makemaker_args 'DIR' => ['state'];
 
+# cc_inc_paths '.';
+cc_files 'XS.c';
+
 WriteAll;

@@ -1,6 +1,7 @@
 package Layton::SlidePuzzle::State;
 use strict;
 use warnings;
+use Layton::PuzzleSolver::XS;
 
 use overload '""' => 'as_string';
 
@@ -25,12 +26,12 @@ sub data_from_table{
 	return $data, $x, $y;
 }
 
-sub new{
-	my $class = shift;
-	my ($data, $x, $y) = @_;
+# sub new{
+# 	my $class = shift;
+# 	my ($data, $x, $y) = @_;
 
-	bless [$data, $x, $y], $class;
-}
+# 	bless [$data, $x, $y], $class;
+# }
 
 sub as_string{
 	my $self = shift;
@@ -56,14 +57,14 @@ sub set{
 	substr($self->[$DATA_COL], $y * $self->[$X_COL] + $x, 1) = $chr;
 }
 
-sub get{
-	my $self = shift;
-	my ($x, $y) = @_;
+# sub get{
+# 	my $self = shift;
+# 	my ($x, $y) = @_;
 
-	my $chr = substr($self->[$DATA_COL], $y * $self->[$X_COL] + $x, 1);
+# 	my $chr = substr($self->[$DATA_COL], $y * $self->[$X_COL] + $x, 1);
 
-	return ord($chr) - $BASE;
-}
+# 	return ord($chr) - $BASE;
+# }
 
 sub id{
 	my $self = shift;
