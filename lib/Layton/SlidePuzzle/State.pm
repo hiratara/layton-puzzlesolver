@@ -36,8 +36,8 @@ sub data_from_table{
 sub as_string{
 	my $self = shift;
 	my $ret = '';
-	foreach my $y(0 .. $self->[$Y_COL] - 1){
-		foreach my $x(0 .. $self->[$X_COL] - 1){
+	foreach my $y(0 .. $self->y - 1){
+		foreach my $x(0 .. $self->x - 1){
 			$ret .= sprintf(
 				'%2d ', 
 				$self->get($x, $y),
@@ -48,14 +48,14 @@ sub as_string{
 	return $ret;
 }
 
-sub set{
-	my $self = shift;
-	my ($x, $y, $val) = @_;
+# sub set{
+# 	my $self = shift;
+# 	my ($x, $y, $val) = @_;
 
-	my $chr = chr($val + $BASE);
+# 	my $chr = chr($val + $BASE);
 
-	substr($self->[$DATA_COL], $y * $self->[$X_COL] + $x, 1) = $chr;
-}
+# 	substr($self->[$DATA_COL], $y * $self->[$X_COL] + $x, 1) = $chr;
+# }
 
 # sub get{
 # 	my $self = shift;
