@@ -48,9 +48,7 @@ sub _next_with{
 		push @move_to  , {x => $x2, y => $y2};
 	}
 
-	my $next = Layton::SlidePuzzle::State->new(
-		$state->id, $state->x, $state->y
-	);
+	my $next = Layton::SlidePuzzle::State::clone($state);
 	foreach(@move_from){
 		Layton::SlidePuzzle::State::set($next, $_->{x}, $_->{y}, 0);
 	}

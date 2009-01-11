@@ -21,14 +21,30 @@ Layton_SlidePuzzle_State *new(char *class, char *data, U8 x, U8 y)
           state = (Layton_SlidePuzzle_State *) 
                                      malloc( sizeof(Layton_SlidePuzzle_State) );
           data_size = sizeof( char ) * x * y;
-          state->data = malloc( data_size + 1);
+          state->data = (char *)malloc( data_size );
           memcpy(state->data, data, data_size);
-          state->data[0];
           state->x = x;
           state->y = y;
           RETVAL = state;
       OUTPUT:
           RETVAL
+
+Layton_SlidePuzzle_State *clone(Layton_SlidePuzzle_State *self)
+      PREINIT:
+         Layton_SlidePuzzle_State *new;
+         int data_size;
+      CODE:
+          new = (Layton_SlidePuzzle_State *) 
+                                     malloc( sizeof(Layton_SlidePuzzle_State) );
+          data_size = sizeof( char ) * self->x * self->y;
+          new->x = self->x;
+          new->y = self->y;
+          new->data = (char *) malloc( data_size );
+          memcpy(new->data, self->data, data_size);
+          RETVAL = new;
+      OUTPUT:
+          RETVAL
+
 
 void DESTROY(Layton_SlidePuzzle_State *state) 
      PPCODE:
@@ -59,15 +75,13 @@ int y(Layton_SlidePuzzle_State *self)
 
 char *id(Layton_SlidePuzzle_State *self)
       PREINIT:
-#          char *id;
-#          int  data_size;
+          char *id;
+          int  len;
       CODE:
-          RETVAL = self->data;
-#          data_size = sizeof( char ) * self->x * self->y;
-#          id = malloc( data_size + 1);
-#          strncpy(id, self->data, data_size);
-#          id[data_size] = '\0';
-#          printf("%p %p %p\n", self, self->data, id);
-#          RETVAL = id;
+          len = self->x * self->y;
+          id = malloc( sizeof( char ) * (len + 1) );
+          strncpy(id, self->data, len);
+          id[len] = '\0';
+          RETVAL = id;
       OUTPUT:
           RETVAL
