@@ -28,8 +28,8 @@ sub _next_with{
 #	ref $state or die;
 
 	my ($w, $h) = (
-		$state->x,
-		$state->y,
+		Layton::SlidePuzzle::State::x($state),
+		Layton::SlidePuzzle::State::y($state),
 	);
 	my $block_id = $ref_block->{id};
 
@@ -65,8 +65,12 @@ sub next_states{
 	my ($state) = @_;
 
 	my %blocks;
-	foreach my $y (0 .. $state->y - 1){
-		foreach my $x (0 .. $state->x - 1){
+	my ($w, $h) = (
+		Layton::SlidePuzzle::State::x($state),
+		Layton::SlidePuzzle::State::y($state),
+	);
+	foreach my $y (0 .. $h - 1){
+		foreach my $x (0 .. $w - 1){
 			next if Layton::SlidePuzzle::State::get($state, $x, $y) <= 0;
 			push @{ $blocks{Layton::SlidePuzzle::State::get($state, $x, $y)} }, 
 			     {x => $x, y => $y};
