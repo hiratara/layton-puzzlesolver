@@ -66,9 +66,9 @@ sub as_string{
 # 	return ord($chr) - $BASE;
 # }
 
-sub id{
-	my $self = shift;
-	return $self->[$DATA_COL];
-}
+# sub id{
+# 	my $self = shift;
+# 	return $self->[$DATA_COL];
+# }
 
 1;

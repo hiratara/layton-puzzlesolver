@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use base qw/Class::Accessor::Fast/;
 use Layton::SlidePuzzle::State;
-use Clone;
 __PACKAGE__->mk_accessors(qw/initial_state goal_func/);
 
 sub new{
@@ -29,8 +28,8 @@ sub _next_with{
 #	ref $state or die;
 
 	my ($w, $h) = (
-		$state->[$Layton::SlidePuzzle::State::X_COL], 
-		$state->[$Layton::SlidePuzzle::State::Y_COL]
+		$state->x,
+		$state->y,
 	);
 	my $block_id = $ref_block->{id};
 
@@ -49,7 +48,9 @@ sub _next_with{
 		push @move_to  , {x => $x2, y => $y2};
 	}
 
-	my $next = Clone::clone($state);
+	my $next = Layton::SlidePuzzle::State->new(
+		$state->id, $state->x, $state->y
+	);
 	foreach(@move_from){
 		Layton::SlidePuzzle::State::set($next, $_->{x}, $_->{y}, 0);
 	}
@@ -66,8 +67,8 @@ sub next_states{
 	my ($state) = @_;
 
 	my %blocks;
-	foreach my $y (0 .. $state->[$Layton::SlidePuzzle::State::Y_COL] - 1){
-		foreach my $x (0 .. $state->[$Layton::SlidePuzzle::State::X_COL] - 1){
+	foreach my $y (0 .. $state->y - 1){
+		foreach my $x (0 .. $state->x - 1){
 			next if Layton::SlidePuzzle::State::get($state, $x, $y) <= 0;
 			push @{ $blocks{Layton::SlidePuzzle::State::get($state, $x, $y)} }, 
 			     {x => $x, y => $y};

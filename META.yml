@@ -3,6 +3,7 @@ abstract: ~
 author:
   - 'Masahiro Honma <hira.tara {at} gmail.com>'
 build_requires:
+  Test::Base: 0.50
   Test::More: 0
 distribution_type: module
 generated_by: 'Module::Install version 0.77'
