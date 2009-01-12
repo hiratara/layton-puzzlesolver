@@ -15,15 +15,14 @@ MODULE = Layton::PuzzleSolver PACKAGE = Layton::SlidePuzzle::State
 
 Layton_SlidePuzzle_State *new(char *class, char *data, U8 x, U8 y)
       PREINIT:
-          int n, data_size;
+          int n, len;
           Layton_SlidePuzzle_State *state;
       CODE:
-          state = (Layton_SlidePuzzle_State *) 
-                                     malloc( sizeof(Layton_SlidePuzzle_State) );
-          data_size = sizeof( char ) * x * y;
-          state->data = (char *)malloc( data_size + 1 );
-          memcpy(state->data, data, data_size);
-          state->data[data_size] = '\0';
+          New(NULL, state, 1, Layton_SlidePuzzle_State);
+          len = x * y;
+          New(NULL, state->data, len + 1, char);
+          memcpy(state->data, data, len);
+          state->data[len] = '\0';
           state->x = x;
           state->y = y;
           RETVAL = state;
@@ -33,16 +32,15 @@ Layton_SlidePuzzle_State *new(char *class, char *data, U8 x, U8 y)
 Layton_SlidePuzzle_State *clone(Layton_SlidePuzzle_State *self)
       PREINIT:
          Layton_SlidePuzzle_State *new;
-         int data_size;
+         int len;
       CODE:
-          new = (Layton_SlidePuzzle_State *) 
-                                     malloc( sizeof(Layton_SlidePuzzle_State) );
-          data_size = sizeof( char ) * self->x * self->y;
+          New(NULL, new, 1, Layton_SlidePuzzle_State);
+          len = self->x * self->y;
           new->x = self->x;
           new->y = self->y;
-          new->data = (char *) malloc( data_size + 1 );
-          memcpy(new->data, self->data, data_size);
-          new->data[data_size] = '\0';
+          New(NULL, new->data, len + 1, char);
+          memcpy(new->data, self->data, len);
+          new->data[len] = '\0';
           RETVAL = new;
       OUTPUT:
           RETVAL
@@ -50,8 +48,8 @@ Layton_SlidePuzzle_State *clone(Layton_SlidePuzzle_State *self)
 
 void DESTROY(Layton_SlidePuzzle_State *state) 
      PPCODE:
-         free(state->data);
-         free(state);
+         Safefree(state->data);
+         Safefree(state);
 
 int get(Layton_SlidePuzzle_State *self, U8 x, U8 y)
       CODE:
