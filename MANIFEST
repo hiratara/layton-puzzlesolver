@@ -3,6 +3,7 @@ inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
+inc/Module/Install/Compiler.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
@@ -20,6 +21,7 @@ lib/Layton/Phase.pm
 lib/Layton/PuzzleSkel/Puzzle.pm
 lib/Layton/PuzzleSkel/State.pm
 lib/Layton/PuzzleSolver.pm
+lib/Layton/PuzzleSolver/XS.pm
 lib/Layton/SlidePuzzle/Puzzle.pm
 lib/Layton/SlidePuzzle/State.pm
 lib/Layton/SlidePuzzle/State/XS.pm
@@ -27,12 +29,15 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
+sample/timemachine.pl
 state/Makefile.PL
 state/XS.xs
 t/00_compile.t
 t/puzzleskel.t
 t/slidepuzzle.t
 t/state.t
+typemap
+XS.xs
 xt/01_podspell.t
 xt/02_perlcritic.t
 xt/03_pod.t
