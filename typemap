@@ -1,11 +1,24 @@
 TYPEMAP 
-# C型       ----->    エイリアス 
 Layton_SlidePuzzle_State *                LAYTON_STATE
-# 戻り値の変換方法 (Hoge* -> Perl型変換コード) 
+
 OUTPUT 
 LAYTON_STATE
     sv_setref_pv($arg, \"Layton::SlidePuzzle::State\", (void *) $var);
-# 引数の変換方法 (引数にHoge *が渡された場合のPerl -> C型変換コード) 
+
 INPUT 
 LAYTON_STATE
+    $var = INT2PTR( $type, SvIV( (SV *) SvRV($arg) ) ); 
+
+
+
+
+TYPEMAP 
+Layton_SlidePuzzle_Board *                LAYTON_BOARD
+
+OUTPUT 
+LAYTON_BOARD
+    sv_setref_pv($arg, \"Layton::SlidePuzzle::Board\", (void *) $var);
+
+INPUT 
+LAYTON_BOARD
     $var = INT2PTR( $type, SvIV( (SV *) SvRV($arg) ) ); 
