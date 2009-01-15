@@ -10,8 +10,8 @@ use Layton::SlidePuzzle::State;
 my $puzzle = Layton::SlidePuzzle::Puzzle->new(
 	initial_state => Layton::SlidePuzzle::State->new(
 		Layton::SlidePuzzle::State::data_from_table([
-			[ 0, 1, 1],
-			[ 2, 0, 0],
+			[-1, 0, 1],
+			[ 2, 2, 0],
 			[ 2, 0, 0],
 		])
 	),

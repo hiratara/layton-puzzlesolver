@@ -19,12 +19,29 @@ my $puzzle = Layton::SlidePuzzle::Puzzle->new(
 	),
 	goal_func => sub {
 		my $table = shift;
-		foreach my $x(1 .. 5){
-			foreach my $y(1 .. 5){
-				return 0 
-				        if Layton::SlidePuzzle::State::get($table, $x, $y) <= 0;
-			}
-		}
+# 		foreach my $x(1 .. 5){
+# 			foreach my $y(1 .. 5){
+# 				return 0 
+# 				        if Layton::SlidePuzzle::State::get($table, $x, $y) <= 0;
+# 			}
+# 		}
+		Layton::SlidePuzzle::State::get($table, 2, 0) and return 0;
+		Layton::SlidePuzzle::State::get($table, 3, 0) and return 0;
+		Layton::SlidePuzzle::State::get($table, 4, 0) and return 0;
+
+		Layton::SlidePuzzle::State::get($table, 0, 1) and return 0;
+		Layton::SlidePuzzle::State::get($table, 0, 2) and return 0;
+		Layton::SlidePuzzle::State::get($table, 0, 3) and return 0;
+		Layton::SlidePuzzle::State::get($table, 0, 4) and return 0;
+
+		Layton::SlidePuzzle::State::get($table, 6, 2) and return 0;
+		Layton::SlidePuzzle::State::get($table, 6, 3) and return 0;
+		Layton::SlidePuzzle::State::get($table, 6, 4) and return 0;
+		Layton::SlidePuzzle::State::get($table, 6, 5) and return 0;
+
+		Layton::SlidePuzzle::State::get($table, 2, 6) and return 0;
+		Layton::SlidePuzzle::State::get($table, 3, 6) and return 0;
+		Layton::SlidePuzzle::State::get($table, 4, 6) and return 0;
 		return 1;
 	},
 );

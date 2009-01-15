@@ -17,7 +17,6 @@ sub new{
 }
 
 sub _next_with{
-	my $self    = shift;
 	my ($state, $ref_block, $move_func) = @_;
 
 # 	{
@@ -36,29 +35,34 @@ sub _next_with{
 	my (@move_to, @move_from);
 
 	foreach my $ref_point ( @{ $ref_block->{points} } ){
-		my ($x, $y) = ($ref_point->{x}, $ref_point->{y});
-		next if Layton::SlidePuzzle::State::get($state, $x, $y) != $block_id;
+		my ($x, $y)   = @$ref_point;
 		my ($x2, $y2) = $move_func->($x, $y);
 		return () if $x2 < 0 || $x2 >= $w 
 		          || $y2 < 0 || $y2 >= $h;
 		my $block_move_to = Layton::SlidePuzzle::State::get($state, $x2, $y2);
 		return () if $block_move_to != 0
 		          && $block_move_to != $block_id;
-		push @move_from, {x => $x , y => $y };
-		push @move_to  , {x => $x2, y => $y2};
+		push @move_from, [$x , $y ];
+		push @move_to  , [$x2, $y2];
 	}
 
 	my $next = Layton::SlidePuzzle::State::clone($state);
 	foreach(@move_from){
-		Layton::SlidePuzzle::State::set($next, $_->{x}, $_->{y}, 0);
+		Layton::SlidePuzzle::State::set($next, @$_, 0);
 	}
 
 	foreach(@move_to){
-		Layton::SlidePuzzle::State::set($next, $_->{x}, $_->{y}, $block_id);
+		Layton::SlidePuzzle::State::set($next, @$_, $block_id);
 	}
 
 	return $next;
 }
+
+sub _right{ $_[0] + 1, $_[1]     };
+sub _left { $_[0] - 1, $_[1]     };
+sub _down { $_[0]    , $_[1] + 1 };
+sub _up   { $_[0]    , $_[1] - 1 };
+
 
 sub next_states{
 	my $self = shift;
@@ -71,23 +75,19 @@ sub next_states{
 	);
 	foreach my $y (0 .. $h - 1){
 		foreach my $x (0 .. $w - 1){
-			next if Layton::SlidePuzzle::State::get($state, $x, $y) <= 0;
-			push @{ $blocks{Layton::SlidePuzzle::State::get($state, $x, $y)} }, 
-			     {x => $x, y => $y};
+			my $b = Layton::SlidePuzzle::State::get($state, $x, $y);
+			next if $b <= 0;
+			push @{ $blocks{$b} }, [$x, $y];
 		}
 	}
 
 	my @next_states;
 	foreach my $block_num (keys %blocks){
 		my $ref_block = {id => $block_num, points => $blocks{$block_num}};
-		push @next_states, $self->_next_with($state, $ref_block, 
-		                                     sub {$_[0] + 1, $_[1]}  ),
-		                   $self->_next_with($state, $ref_block, 
-		                                     sub {$_[0] - 1, $_[1]}  ),
-		                   $self->_next_with($state, $ref_block, 
-		                                     sub {$_[0], $_[1] + 1}  ),
-		                   $self->_next_with($state, $ref_block, 
-		                                     sub {$_[0], $_[1] - 1}  );
+		push @next_states, _next_with($state, $ref_block, \&_right),
+		                   _next_with($state, $ref_block, \&_left ),
+		                   _next_with($state, $ref_block, \&_down ),
+		                   _next_with($state, $ref_block, \&_up   );
 	}
 	return @next_states;
 }
