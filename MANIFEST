@@ -1,3 +1,6 @@
+.gitignore
+board.c
+board.h
 Changes
 inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm
@@ -22,6 +25,7 @@ lib/Layton/PuzzleSkel/Puzzle.pm
 lib/Layton/PuzzleSkel/State.pm
 lib/Layton/PuzzleSolver.pm
 lib/Layton/PuzzleSolver/XS.pm
+lib/Layton/SlidePuzzle/Board.pm
 lib/Layton/SlidePuzzle/Puzzle.pm
 lib/Layton/SlidePuzzle/State.pm
 lib/Layton/SlidePuzzle/State/XS.pm
@@ -30,6 +34,8 @@ MANIFEST			This list of files
 META.yml
 README
 sample/timemachine.pl
+state.c
+state.h
 state/Makefile.PL
 state/XS.xs
 t/00_compile.t
