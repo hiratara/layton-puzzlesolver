@@ -1,6 +1,8 @@
 #include "EXTERN.h"
 #include "perl.h"
-#include "puzzle.h"
+#include "XSUB.h"
+#include "state.h"
+#include "board.h"
 
 Layton_SlidePuzzle_Board *Board_new(char *class, int x, int y){
   Layton_SlidePuzzle_Board *board;
@@ -14,12 +16,12 @@ void Board_DESTROY(Layton_SlidePuzzle_Board *board) {
   Safefree(board);
 }
 
-AV* Puzzle_next_states(SV *sv, Layton_SlidePuzzle_State *state){
+AV* Board_next_states(Layton_SlidePuzzle_Board *board, Layton_SlidePuzzle_State *state){
   AV *ret = newAV();
-  SV *st  = newSV();
+  SV *st  = newSV(0);
 
   /* typemapな定義使えないのかなあ？ */
-  sv_setref_pv(st, \"Layton::SlidePuzzle::State\", (void *) state);
+  sv_setref_pv(st, "Layton::SlidePuzzle::State", (void *) state);
   av_push(ret, st);
   return ret;
 }

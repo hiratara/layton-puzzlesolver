@@ -35,7 +35,7 @@ sub run{
 		print(scalar keys %done, "\n");
 		my @next_phase;
 		foreach my $phase (@current) {
-			if ( $goal_func->($phase->state) ) {
+			if ( $goal_func->($phase->state, $puzzle) ) {
 				$ans = $phase;
 				last LOOP;
 			}
