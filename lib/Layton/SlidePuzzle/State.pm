@@ -35,17 +35,18 @@ sub data_from_table{
 
 sub as_string{
 	my $self = shift;
-	my $ret = '';
-	foreach my $y(0 .. $self->y - 1){
-		foreach my $x(0 .. $self->x - 1){
-			$ret .= sprintf(
-				'%2d ', 
-				$self->get($x, $y),
-			);
-		}
-		$ret .= "\n";
-	}
-	return $ret;
+	return $self->id;
+# 	my $ret = '';
+# 	foreach my $y(0 .. $self->y - 1){
+# 		foreach my $x(0 .. $self->x - 1){
+# 			$ret .= sprintf(
+# 				'%2d ', 
+# 				$self->get($x, $y),
+# 			);
+# 		}
+# 		$ret .= "\n";
+# 	}
+# 	return $ret;
 }
 
 # sub set{

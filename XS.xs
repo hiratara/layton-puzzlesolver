@@ -18,7 +18,7 @@ char *State_id(Layton_SlidePuzzle_State *self)
 
 MODULE = Layton::PuzzleSolver PACKAGE = Layton::SlidePuzzle::Board PREFIX=Board_
 
-Layton_SlidePuzzle_Board *Board_new(char *class, int x, int y)
+Layton_SlidePuzzle_Board *Board_new(char *class, int x, int y, char *blocks)
 
 void Board_DESTROY(Layton_SlidePuzzle_Board *board)
 

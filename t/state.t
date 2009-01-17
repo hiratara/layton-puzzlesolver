@@ -1,7 +1,10 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+# use Test::More tests => 4;
+use Test::More tests => 1;
 BEGIN{ use_ok 'Layton::SlidePuzzle::State' };
+
+__END__
 # my $state = State->new('aaaabaaaabbb', 3, 4, [0, 1]);
 
 my $state = Layton::SlidePuzzle::State->new(

@@ -5,12 +5,21 @@
 #include "perl.h"
 #include "state.h"
 
+typedef struct _Point {
+  int x;
+  int y;
+} Point;
+
 typedef struct _Layton_SlidePuzzle_Board{
     int x;
     int y;
+    char* blocks;
+    Point *move_from_buf;
+    Point *move_to_buf;
+    char  *data_buf;
 } Layton_SlidePuzzle_Board;
 
-Layton_SlidePuzzle_Board *Board_new(char *class, int x, int y);
+Layton_SlidePuzzle_Board *Board_new(char *class, int x, int y, char *blocks);
 
 void Board_DESTROY(Layton_SlidePuzzle_Board *board);
 

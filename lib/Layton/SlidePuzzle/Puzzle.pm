@@ -14,19 +14,26 @@ sub new{
 		@_,
 	});
 
+	# parse board data.
 	my ($data, $x, $y) = Layton::SlidePuzzle::State::data_from_table(
 		$self->initial_state
 	);
+	my %blocks = map {$_ => 1} 
+	             grep {$_ > 0} ( map { @{$_} } @{ $self->initial_state } );
+	my $blocks = join('', map {chr($_)} keys %blocks);
 
+	$self->board( Layton::SlidePuzzle::Board->new($x, $y, $blocks) );
 	$self->initial_state(Layton::SlidePuzzle::State->new($data, length($data)));
-	$self->board( Layton::SlidePuzzle::Board->new($x, $y) );
 
 	return $self;
 }
 
 sub next_states{
 	my $self = shift;
-	return @{ $self->board->next_states(@_) };
+	my @ret = @{ $self->board->next_states(@_) };
+	# print 'NEXTS:', scalar @ret, "\n";
+	# print map {$_->id, "\n"} @ret;
+	return @ret;
 }
 
 
