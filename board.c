@@ -120,7 +120,7 @@ AV* Board_next_states(Layton_SlidePuzzle_Board *board, Layton_SlidePuzzle_State 
     r = Board_move_block(board, state, board->data_buf, *ptr, move_up);
     if(r){
       /* typemapな定義使えないのかなあ？ */
-      st  = newSV(0);
+      st  = sv_newmortal();
       new_state = State_new(NULL, board->data_buf, board->x * board->y);
       sv_setref_pv(st, "Layton::SlidePuzzle::State", (void *) new_state);
       av_push(ret, st);
@@ -128,7 +128,7 @@ AV* Board_next_states(Layton_SlidePuzzle_Board *board, Layton_SlidePuzzle_State 
     r = Board_move_block(board, state, board->data_buf, *ptr, move_down);
     if(r){
       /* typemapな定義使えないのかなあ？ */
-      st  = newSV(0);
+      st  = sv_newmortal();
       new_state = State_new(NULL, board->data_buf, board->x * board->y);
       sv_setref_pv(st, "Layton::SlidePuzzle::State", (void *) new_state);
       av_push(ret, st);
@@ -136,7 +136,7 @@ AV* Board_next_states(Layton_SlidePuzzle_Board *board, Layton_SlidePuzzle_State 
     r = Board_move_block(board, state, board->data_buf, *ptr, move_left);
     if(r){
       /* typemapな定義使えないのかなあ？ */
-      st  = newSV(0);
+      st  = sv_newmortal();
       new_state = State_new(NULL, board->data_buf, board->x * board->y);
       sv_setref_pv(st, "Layton::SlidePuzzle::State", (void *) new_state);
       av_push(ret, st);
@@ -144,7 +144,7 @@ AV* Board_next_states(Layton_SlidePuzzle_Board *board, Layton_SlidePuzzle_State 
     r = Board_move_block(board, state, board->data_buf, *ptr, move_right);
     if(r){
       /* typemapな定義使えないのかなあ？ */
-      st  = newSV(0);
+      st  = sv_newmortal();
       new_state = State_new(NULL, board->data_buf, board->x * board->y);
       sv_setref_pv(st, "Layton::SlidePuzzle::State", (void *) new_state);
       av_push(ret, st);
