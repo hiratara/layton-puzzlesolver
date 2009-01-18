@@ -19,19 +19,20 @@ sub new{
 	return $self;
 }
 
-our $MAX = 10;
+our $MAX = 7;
 sub run{
 	my $self = shift;
 
 	my $puzzle = $self->puzzle;
 	my $goal_func   = $puzzle->goal_func;
 
-	my %branch;
 	my %min_turn;
-	my @ans = ($puzzle->initial_state);
+	my @branch = ( [ $puzzle->next_states($puzzle->initial_state) ] );
+	my @ans    = ( $puzzle->initial_state );
 
 	LOOP: while(@ans){
-		my $current = $ans[-1];
+		my $current    = $ans[-1];
+		my $cur_branch = $branch[-1];
 
 		if ( $goal_func->($current) ) {
 			last LOOP;
@@ -39,26 +40,19 @@ sub run{
 
 		if(@ans >= $MAX){
 			# no way...
-			$branch{$current->id} and die;  #DEBUG
 			pop @ans;
+			pop @branch;
 			next;
 		}
 
-		if(! exists $branch{$current->id}){
-			# first visited.
-			$branch{$current->id} = [ 
-				grep { ! exists $branch{$_->id} }
-				$puzzle->next_states($current) 
-			];
-		}
-
-		if(! @{ $branch{$current->id} }){
+		if(! @{ $cur_branch }){
 			# no way...
-			delete $branch{$current->id};  # retry(maybe more fast turn)
 			pop @ans;
+			pop @branch;
 		}else{
-			my $next = shift @{ $branch{$current->id} };
+			my $next = shift @{ $cur_branch };
 			push @ans, $next ;
+			push @branch, [$puzzle->next_states($next)];
 		}
 	}
 
