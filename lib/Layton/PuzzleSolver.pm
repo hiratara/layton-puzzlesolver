@@ -19,45 +19,47 @@ sub new{
 	return $self;
 }
 
+our $MAX = 10;
 sub run{
 	my $self = shift;
 
 	my $puzzle = $self->puzzle;
-	my $first_phase = Layton::Phase->new(state => $puzzle->initial_state);
 	my $goal_func   = $puzzle->goal_func;
 
-	my %done;
-	$done{ $first_phase->state->id } = 1;
-	my @current = ( $first_phase );
+	my %branch;
+	my %min_turn;
+	my @ans = ($puzzle->initial_state);
 
-	my $ans = undef;
-	LOOP: while(@current){
-		print(scalar keys %done, "\n");
-		my @next_phase;
-		foreach my $phase (@current) {
-			if ( $goal_func->($phase->state) ) {
-				$ans = $phase;
-				last LOOP;
-			}
-			foreach my $next_state( $puzzle->next_states($phase->state) ) {
-				next if exists $done{$next_state->id};
-				$done{$next_state->id} = undef;
-				push @next_phase, Layton::Phase->new(
-					state => $next_state, 
-					before => $phase
-				);
-			}
+	LOOP: while(@ans){
+		my $current = $ans[-1];
+
+		if ( $goal_func->($current) ) {
+			last LOOP;
 		}
-		@current = @next_phase;
 
-		# last if $main::DEBUG++ > 15;
-	}
+		if(@ans >= $MAX){
+			# no way...
+			$branch{$current->id} and die;  #DEBUG
+			pop @ans;
+			next;
+		}
 
-	return () unless $ans;
+		if(! exists $branch{$current->id}){
+			# first visited.
+			$branch{$current->id} = [ 
+				grep { ! exists $branch{$_->id} }
+				$puzzle->next_states($current) 
+			];
+		}
 
-	my @ans;
-	for (my $p = $ans; $p; $p = $p->before) {
-		unshift @ans, $p->state;
+		if(! @{ $branch{$current->id} }){
+			# no way...
+			delete $branch{$current->id};  # retry(maybe more fast turn)
+			pop @ans;
+		}else{
+			my $next = shift @{ $branch{$current->id} };
+			push @ans, $next ;
+		}
 	}
 
 	return @ans;
